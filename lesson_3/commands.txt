@@ -1,0 +1,18 @@
+station = Station.new("berlin")
+
+route = Route.new("berlin", "moscow")
+
+train = Train.new("dfg456", "грузовой", 456)
+train2 = Train.new("dig446", "грузовой", 4)
+train3 = Train.new("d4g4445", "пассажирский", 410)
+train4 = Train.new("d4g4444445", "пассажирский", 40)
+train5 = Train.new("d4g88445", "грузовой", 40)
+
+station.receiving_train(train)
+station.receiving_train(train2)
+station.receiving_train(train3)
+station.receiving_train(train4)
+station.receiving_train(train5)
+
+
+
