@@ -16,4 +16,11 @@ class PassengerWagon < Wagon
   def take_volume
     self.occupied_volume += 1 if occupied_volume < total_volume
   end
+
+  protected
+
+  def validate!
+    super
+    raise 'Нельзя занять места' if occupied_volume < total_volume
+  end
 end

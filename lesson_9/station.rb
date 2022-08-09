@@ -2,11 +2,14 @@
 
 class Station
   include InstanceCounter
-  include ValidCheck
+  include Validation
 
   attr_reader :trains, :title_station
 
-  TITLE_STATION = /^[а-я0-9]/i.freeze
+  # TITLE_STATION = /^[а-я0-9]/i.freeze
+
+  validate :title_station, :presence
+  validate :title_station, :format, /^[а-я0-9]/i
 
   class << self
     attr_accessor :stations
@@ -21,7 +24,7 @@ class Station
   def initialize(title_station)
     @title_station = title_station
     @trains = []
-    validate!
+    init_validate!
     self.class.stations << self
     register_instance
   end
@@ -42,10 +45,10 @@ class Station
 
   protected
 
-  attr_writer :trains
+  attr_writer :trains, :title_station
 
-  def validate!
-    raise 'Неверное название станции.' if title_station !~ TITLE_STATION
-    raise 'Такое название станции уже существует' if self.class.stations.map(&:title_station).include?(title_station)
+  def init_validate!
+    validate!
+    raise 'Название станции должно быть уникальным' if self.class.stations.map(&:title_station).include?(title_station)
   end
 end

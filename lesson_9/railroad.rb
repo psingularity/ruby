@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'accessors'
-require_relative 'valid_check'
+require_relative 'validation'
 require_relative 'instance_counter'
 require_relative 'company_manufacturer_name'
 require_relative 'station'
@@ -13,7 +13,6 @@ require_relative 'wagon'
 require_relative 'cargo_wagon'
 require_relative 'passenger_wagon'
 
-# rubocop:disable Metrics/ClassLength
 class RailRoad
   attr_reader :stations, :title_stations, :trains, :wagons, :routes, :title_station
 
@@ -94,8 +93,11 @@ class RailRoad
     when 2
       create_train
     when 3
-      stations.empty? ? puts('Нет станций.') : create_route
+      stations.length < 2 ? puts('Нет достаточного количества станций.') : create_route
     end
+  rescue RuntimeError => e
+    puts e.inspect
+    retry
   end
 
   def submenu_two
@@ -193,19 +195,12 @@ class RailRoad
 
     @stations << Station.new(@title_station)
     @title_stations << @title_station
-  rescue RuntimeError
-    system 'clear'
-    puts 'Название станции уже существует или неверное (исп. русские буквы + цифры). Повторите, пожалуйста:'
-    retry
   end
 
   def create_train
     puts 'Введите номер поезда:'
     number_train = gets.chomp
-    type_train(number_train)
-  rescue RuntimeError
-    puts 'Неверный номера поезда. Используйте формат - три буквы/(дефис)/две цифры(буквы)'
-    retry
+    number_train.empty? ? puts('Не введен номер поезда.') : type_train(number_train)
   end
 
   def type_train(number_train)
@@ -222,6 +217,7 @@ class RailRoad
   def create_route
     puts 'Все станции:'
     all_stations_way
+
     puts 'Введите станцию отправления:'
     first_station = gets.chomp.to_i - 1
     puts 'Введите станцию назначения'
@@ -427,5 +423,3 @@ class RailRoad
     end
   end
 end
-
-# rubocop:enable Metrics/ClassLength

@@ -2,7 +2,7 @@
 
 class Route
   include InstanceCounter
-  include ValidCheck
+  include Validation
 
   attr_reader :stations
 
@@ -43,6 +43,6 @@ class Route
   attr_writer :stations
 
   def validate!
-    raise 'The route must have at least 2 stations' if stations.length < 2
+    raise 'Маршрут должен иметь минимум 2 станции' if stations.length < 2
   end
 end

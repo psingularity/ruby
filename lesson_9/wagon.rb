@@ -2,6 +2,7 @@
 
 class Wagon
   include CompanyManufacturerName
+  include Validation
 
   attr_reader :type, :number, :total_volume, :occupied_volume
 

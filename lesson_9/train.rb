@@ -5,11 +5,9 @@ require_relative 'railroad'
 class Train
   include CompanyManufacturerName
   include InstanceCounter
-  include ValidCheck
+  include Validation
 
   attr_reader :type, :speed, :number, :route, :current_position, :wagons
-
-  NUMBER_TRAIN = /^[а-я0-9]{3}-?[а-я0-9]{2}$/i.freeze
 
   def self.trains
     @trains ||= []
@@ -117,7 +115,7 @@ class Train
   end
 
   def validate!
-    raise 'Неверный номер поезда.' if number !~ NUMBER_TRAIN
+    super
     raise 'Такой номер поезда уже существует.' if self.class.trains.map(&:number).include?(number)
     raise 'Тип поезда не верный.' if type != 'пассажирский' && type != 'грузовой'
   end
