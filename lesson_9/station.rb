@@ -24,7 +24,7 @@ class Station
   def initialize(title_station)
     @title_station = title_station
     @trains = []
-    init_validate!
+    validate!
     self.class.stations << self
     register_instance
   end
@@ -47,8 +47,8 @@ class Station
 
   attr_writer :trains, :title_station
 
-  def init_validate!
-    validate!
+  def validate!
+    super
     raise 'Название станции должно быть уникальным' if self.class.stations.map(&:title_station).include?(title_station)
   end
 end

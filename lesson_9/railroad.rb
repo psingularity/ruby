@@ -192,9 +192,10 @@ class RailRoad
   def create_station
     puts 'Введите название станции:'
     @title_station = gets.chomp
-
+    
     @stations << Station.new(@title_station)
     @title_stations << @title_station
+    
   end
 
   def create_train

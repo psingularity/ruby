@@ -45,5 +45,6 @@ module Validation
     def validate_type(var_validation, type)
       raise 'Значение не соответствует заданному типу' unless var_validation.is_a? type
     end
+
   end
 end
